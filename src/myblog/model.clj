@@ -9,13 +9,14 @@
 
 (defn dbconnect [ & local]
   (if (empty? local)
-(let [username "admin"
-      password "RdG-U9HgFTDE"
-      db "coursetask04"]
+    (let [env (into {} (System/getenv))
+          username "admin"
+          password "RdG-U9HgFTDE"
+          db "coursetask04"]
   (mg/connect! {:host (get env "OPENSHIFT_MONGODB_DB_HOST")
-                     :port (get env "OPENSHIFT_MONGODB_DB_PORT"})
+                     :port (get env "OPENSHIFT_MONGODB_DB_PORT")})
 (mg/use-db! db)
-(mg/authenticate (mc/get-db db) username (.toCharArray password))
+(mg/authenticate (mg/get-db db) username (.toCharArray password))
 )
 (do
   (mg/connect!)
