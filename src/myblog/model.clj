@@ -12,9 +12,10 @@
 (let [username "admin"
       password "RdG-U9HgFTDE"
       db "coursetask04"]
-;(mg/connect! {:host $OPENSHIFT_MONGODB_DB_HOST :port $OPENSHIFT_MONGODB_DB_PORT})
-;(mg/use-db! db)
-;(mg/authenticate (mc/get-db db) username (.toCharArray password))
+  (mg/connect! {:host (get env "OPENSHIFT_MONGODB_DB_HOST")
+                     :port (get env "OPENSHIFT_MONGODB_DB_PORT"})
+(mg/use-db! db)
+(mg/authenticate (mc/get-db db) username (.toCharArray password))
 )
 (do
   (mg/connect!)
