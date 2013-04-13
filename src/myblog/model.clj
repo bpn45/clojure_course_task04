@@ -17,7 +17,7 @@
           port (get env "OPENSHIFT_MONGODB_DB_PORT")]
       (if (not (and (nil? host) (nil? port)))
         (do
-  (mg/connect! {:host host   :port port})
+  (mg/connect! "mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/")
 (mg/use-db! db)
 (mg/authenticate (mg/get-db db) username (.toCharArray password)))
 (do
