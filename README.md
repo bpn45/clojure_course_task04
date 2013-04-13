@@ -14,6 +14,8 @@ War-ку собирать так:
     
     lein ring uberwar
     
+
+Переделал под MongoDB с библиотекой monger
 ## License
 
 Copyright © 2013 FIXME

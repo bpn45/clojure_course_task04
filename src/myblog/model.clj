@@ -1,49 +1,47 @@
 (ns myblog.model
-  (:use [korma db core]))
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]))
 
+;      Root User: 
+;   Root Password: 
+;   Database Name: 
+;Connection URL: mongodb://:/
 
+(defn dbconnect [ & local]
+  (if (empty? local)
+(let [username "admin"
+      password "RdG-U9HgFTDE"
+      db "coursetask04"]
+;(mg/connect! {:host $OPENSHIFT_MONGODB_DB_HOST :port $OPENSHIFT_MONGODB_DB_PORT})
+;(mg/use-db! db)
+;(mg/authenticate (mc/get-db db) username (.toCharArray password))
+)
+(do
+  (mg/connect!)
+  (mg/use-db! (first local)))))
 
-(def default-conn {:classname "com.mysql.jdbc.Driver"
-                   :subprotocol "mysql"
-                   :user "myblog"
-                   :password "myblog"
-                   :subname "//127.0.0.1:3306/myblog?useUnicode=true&characterEncoding=utf8"
-                   :delimiters "`"})
+(dbconnect "local")
 
-;; (def env (into {} (System/getenv)))
-
-;; (def dbhost (get env "OPENSHIFT_MYSQL_DB_HOST"))
-;; (def dbport (get env "OPENSHIFT_MYSQL_DB_PORT"))
-
-;; (def default-conn {:classname "com.mysql.jdbc.Driver"
-;;                    :subprotocol "mysql"
-;;                    :user "user"
-;;                    :password "password"
-;;                    :subname (str "//" dbhost ":" dbport "/helloworld?useUnicode=true&characterEncoding=utf8")
-;;                    :delimiters "`"})
-
-
-(defdb korma-db default-conn)
-
-(defentity article)
-
+(defn todb [item]
+  (assoc item :id (inc (long (mc/count "document")))))
 
 (defn create-article [item]
-  (insert article (values item)))
+    (mc/insert "document" (todb  item)))
 
 (defn select-article []
-  (select article))
+  (mc/find-maps "document"))
 
 (defn find-article [id]
-  (first (select article (where {:id id}))))
+   ;(first (mc/find-maps  "document" {:id id})))
+    (mc/find-one-as-map "document" {:id id}))  
 
 (defn update-article [item]
-  (update article
-          (set-fields item)
-          (where {:id (:id item)})))
+  (print (str item))
+  (mc/update "document" {:id (:id item)}  item))
 
 (defn delete-article [id]
-  (delete article
-          (where {:id id})))
+  (mc/remove "document"  {:id id} ))
 
+(defn delete-all []
+  (mc/remove "document"))
 
