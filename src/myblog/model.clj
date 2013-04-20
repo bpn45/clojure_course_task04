@@ -18,7 +18,7 @@
           ]
       (if (not (and (nil? host) (nil? port)))
         (do
-  (mg/connect! "127.4.112.1" 27017)
+  (mg/connect! {:host "127.4.112.1" :port 27017})
 (mg/use-db! db)
 (mg/authenticate (mg/get-db db) username (.toCharArray password)))
 (do
