@@ -13,11 +13,12 @@
           username "admin"
           password "CBWicSHaTQYR"
           db "course1task04"
-          host  (get env "OPENSHIFT_MONGODB_DB_HOST")
-          port (get env "OPENSHIFT_MONGODB_DB_PORT")]
+          host  (get env "$OPENSHIFT_MONGODB_DB_HOST")
+          port   (get env "$OPENSHIFT_MONGODB_DB_PORT")
+          ]
       (if (not (and (nil? host) (nil? port)))
         (do
-  (mg/connect! "mongodb://$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/")
+  (mg/connect! "127.4.112.1" 27017)
 (mg/use-db! db)
 (mg/authenticate (mg/get-db db) username (.toCharArray password)))
 (do
