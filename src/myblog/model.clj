@@ -13,8 +13,8 @@
           username "admin"
           password "CBWicSHaTQYR"
           db "course1task04"
-          host  (get env "$OPENSHIFT_MONGODB_DB_HOST")
-          port   (get env "$OPENSHIFT_MONGODB_DB_PORT")
+          host  (get env "OPENSHIFT_MONGODB_DB_HOST")
+          port   (get env "OPENSHIFT_MONGODB_DB_PORT")
           ]
       (if (not (and (nil? host) (nil? port)))
         (do
