@@ -13,13 +13,11 @@
           username "admin"
           password "CBWicSHaTQYR"
           db "course1task04"
-          host  (get env "OPENSHIFT_MONGODB_DB_HOST" "127.0.0.1")
-          port   (get env "OPENSHIFT_MONGODB_DB_PORT" 27017)
-          ]
+          uri  (get env "OPENSHIFT_MONGODB_DB_URL" "mongodb://127.0.0.1:27017")
+           ]
       
-(mg/connect!  (mg/server-address host port))
-(mg/use-db! db)
-(mg/authenticate (mg/get-db db) username (.toCharArray password)))
+      (mg/connect-via-uri! (str uri "/" db)))
+
 
 
 
